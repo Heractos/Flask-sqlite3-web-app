@@ -14,8 +14,8 @@
       <div class="card mb-3">
         <div class="card-body">
           <h4 class="card-title">{{ post.title }}</h4>
-          <h6 class="card-subtitle mb-2 text-muted">{{ post.user.first_name }}</h6>
-          <p class="card-text">{{ post.content }}</p>
+          <h6 class="card-subtitle mb-2 text-muted"> by {{ post.user.first_name }}</h6>
+          <p class="card-text">{{ post.content | safe }}</p>
           <a href="{{ url_for('views.like_post', post_id=post.id) }}" class="btn btn-secondary btn-sm">
             {% if current_user in post.likes %}
               Unlike {{ post.likes | count }}

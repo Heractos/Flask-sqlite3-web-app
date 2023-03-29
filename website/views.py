@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 from .models import Post, Comment, Like, User
 from sqlalchemy.sql import func
-from flask_wtf.csrf import CSRFProtect
+from markupsafe import Markup
 from . import db
 
 views = Blueprint("views", __name__)
@@ -13,7 +13,7 @@ views = Blueprint("views", __name__)
 def index():
     if request.method == "POST":
         title = request.form.get("title")
-        content = request.form.get("content")
+        content = Markup(request.form.get("content"))
         if not title or not content:
             flash("Please enter a title and content for your post", category="error")
         else:
@@ -24,7 +24,7 @@ def index():
             return redirect(url_for("views.index"))
 
     posts = Post.query.order_by(Post.date_posted.desc()).all()
-    return render_template("index.html", posts=posts)
+    return render_template("index.html", posts=posts, safe=func.safe)
 
 
 @views.route("/create_post", methods=["GET", "POST"])
@@ -32,7 +32,7 @@ def index():
 def create_post():
     if request.method == "POST":
         title = request.form.get("title")
-        content = request.form.get("content")
+        content = Markup(request.form.get("content"))
         post = Post(title=title, content=content, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
