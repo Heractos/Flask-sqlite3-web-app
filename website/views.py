@@ -77,6 +77,9 @@ def delete_post(post_id):
     if post.user_id != current_user.id:
         flash("You are not authorized to delete this post!", "danger")
         return redirect(url_for("views.index"))
+    comments = Comment.query.filter_by(post_id=post_id).all()
+    for comment in comments:
+        db.session.delete(comment)
     db.session.delete(post)
     db.session.commit()
     flash("Your post has been deleted!", "success")
