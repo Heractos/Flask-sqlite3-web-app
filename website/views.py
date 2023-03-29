@@ -80,6 +80,9 @@ def delete_post(post_id):
     comments = Comment.query.filter_by(post_id=post_id).all()
     for comment in comments:
         db.session.delete(comment)
+    likes = Like.query.filter_by(post_id=post_id).all()
+    for like in likes:
+        db.session.delete(like)
     db.session.delete(post)
     db.session.commit()
     flash("Your post has been deleted!", "success")
