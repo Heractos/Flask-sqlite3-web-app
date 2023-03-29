@@ -33,3 +33,8 @@ To access our application, kindly follow the link provided below where it is hos
 ## Preloaded Database Content
 
 Our application is integrated with a pre-existing database. As part of the testing process, I have created two user accounts within the database. Each account has authored two posts, engaged in reciprocal post liking, and commented on each other's posts.
+
+## If 403 Error Encountered
+
+Just in case, if you encounter 403 error from your browser (applies to Chrome only), you can use this link to flush socket pools:
+`chrome://net-internals/#sockets`
